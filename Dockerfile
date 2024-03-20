@@ -10,8 +10,8 @@ RUN set -ex \
 # download go deps
 # (cache by separating the downloading of deps)
 COPY go.mod go.sum ./
-ENV GOPROXY=https://goproxy.io,direct
-RUN go mod download
+RUN go env -w GOPROXY=https://goproxy.cn,direct
+RUN go mod download -x
 
 # copy source code
 COPY . .
@@ -23,6 +23,7 @@ ARG SKIP_UI_BUILD=false
 RUN set -ex \
     && if [ "$SKIP_UI_BUILD" = "false" ]; then \
         apk add --no-cache nodejs npm \
+        && npm config set registry 'https://registry.npmmirror.com' \
         && npm install -g pnpm@8.12.1 \
     ;fi
 
