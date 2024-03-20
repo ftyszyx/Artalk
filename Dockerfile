@@ -10,6 +10,7 @@ RUN set -ex \
 # download go deps
 # (cache by separating the downloading of deps)
 COPY go.mod go.sum ./
+ENV GOPROXY=https://goproxy.io,direct
 RUN go mod download
 
 # copy source code
